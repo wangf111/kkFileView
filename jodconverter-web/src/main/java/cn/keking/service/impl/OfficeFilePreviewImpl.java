@@ -65,10 +65,10 @@ public class OfficeFilePreviewImpl implements FilePreview {
             }
             if (StringUtils.hasText(outFilePath)) {
                 officeToPdf.openOfficeToPDF(filePath, outFilePath);
-                File f = new File(filePath);
-                if (f.exists()) {
-                    f.delete();
-                }
+//                File f = new File(filePath);
+//                if (f.exists()) {
+//                    f.delete();
+//                }
                 if (isHtml) {
                     // 对转换后的文件进行操作(改变编码方式)
                     fileUtils.doActionConvertedFile(outFilePath);
