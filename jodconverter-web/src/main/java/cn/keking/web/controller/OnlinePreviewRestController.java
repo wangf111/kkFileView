@@ -1,6 +1,7 @@
 package cn.keking.web.controller;
 
 import cn.keking.model.FileAttribute;
+import cn.keking.model.ResponseJson;
 import cn.keking.service.FilePreview;
 import cn.keking.service.FilePreviewFactory;
 import cn.keking.service.cache.CacheService;
@@ -48,7 +49,7 @@ public class OnlinePreviewRestController {
      * @return
      */
     @RequestMapping(value = "/onlinePreview", method = RequestMethod.GET)
-    public Map<String, Object>  onlinePreview(String url, Model model, HttpServletRequest req) {
+    public ResponseJson onlinePreview(String url, Model model, HttpServletRequest req) {
         FileAttribute fileAttribute = fileUtils.getFileAttribute(url);
         req.setAttribute("fileKey", req.getParameter("fileKey"));
         model.addAttribute("officePreviewType", req.getParameter("officePreviewType"));
@@ -57,7 +58,10 @@ public class OnlinePreviewRestController {
         String preview = filePreview.filePreviewHandle(url, model, fileAttribute);
         Map<String, Object> result = new HashMap<>();
         ((BindingAwareModelMap) model).entrySet().forEach(x->result.put(x.getKey(),x.getValue()));
-        return result ;
+        if (result.isEmpty()) {
+            return new ResponseJson(false,"服务器错误") ;
+        }
+        return new ResponseJson(true,result) ;
     }
 
 
