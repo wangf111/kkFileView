@@ -50,6 +50,19 @@ public class OnlinePreviewRestController {
      */
     @RequestMapping(value = "/onlinePreview", method = RequestMethod.GET)
     public ResponseJson onlinePreview(String url, Model model, HttpServletRequest req) {
+        return buildResponseJson(url, model, req);
+    }
+
+    @RequestMapping(value = "/word/onlinePreview", method = RequestMethod.GET)
+    public ResponseJson wordOnlinePreview(String url, Model model, HttpServletRequest req) {
+        return buildResponseJson(url, model, req);
+    }
+    @RequestMapping(value = "/pdf/onlinePreview", method = RequestMethod.GET)
+    public ResponseJson pdfOnlinePreview(String url, Model model, HttpServletRequest req) {
+        return buildResponseJson(url, model, req);
+    }
+
+    private ResponseJson buildResponseJson(String url, Model model, HttpServletRequest req) {
         FileAttribute fileAttribute = fileUtils.getFileAttribute(url);
         req.setAttribute("fileKey", req.getParameter("fileKey"));
         model.addAttribute("officePreviewType", req.getParameter("officePreviewType"));
@@ -57,11 +70,11 @@ public class OnlinePreviewRestController {
         FilePreview filePreview = previewFactory.get(fileAttribute);
         String preview = filePreview.filePreviewHandle(url, model, fileAttribute);
         Map<String, Object> result = new HashMap<>();
-        ((BindingAwareModelMap) model).entrySet().forEach(x->result.put(x.getKey(),x.getValue()));
+        ((BindingAwareModelMap) model).entrySet().forEach(x -> result.put(x.getKey(), x.getValue()));
         if (result.isEmpty()) {
-            return new ResponseJson(false,"服务器错误") ;
+            return new ResponseJson(false, "服务器错误");
         }
-        return new ResponseJson(true,result) ;
+        return new ResponseJson(true, result);
     }
 
 
