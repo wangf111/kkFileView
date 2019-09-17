@@ -9,7 +9,7 @@ echo "Using KKFILEVIEW_BIN_FOLDER $KKFILEVIEW_BIN_FOLDER"
 grep 'office\.home' ../conf/application.properties | grep '!^#'
 if [ $? -eq 0 ]; then
   echo "Using customized office.home"
-else 
+else
  for i in ${DIR_HOME[@]}
   do
     if [ -f $i"/program/soffice.bin" ]; then
